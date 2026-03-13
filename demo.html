@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ahatherapy | Live Product Demo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:      #0E7C7B;
+      --teal-lt:   #14A8A7;
+      --teal-bg:   #E6F4F4;
+      --navy:      #0D1F3C;
+      --gold:      #E8A020;
+      --gold-bg:   #FFF3D6;
+      --red:       #D94F4F;
+      --red-bg:    #FDEAEA;
+      --green:     #2E9E6B;
+      --green-bg:  #E6F7EF;
+      --off-white: #F7F9FB;
+      --border:    #E2E8EF;
+      --text:      #1A1A2E;
+      --muted:     #5A6070;
+      --radius:    12px;
+      --radius-lg: 20px;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--off-white);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--navy);
+      padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 200;
+    }
+    .logo { font-size: 1.35rem; font-weight: 900; color: #fff; letter-spacing: -.02em; }
+    .logo span { color: var(--teal-lt); }
+    .nav-links { display: flex; gap: 12px; align-items: center; }
+    .nav-back {
+      color: rgba(255,255,255,.6); font-size: .88rem; text-decoration: none;
+      padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,.15);
+    }
+    .nav-cta {
+      background: var(--gold); color: var(--navy);
+      padding: 9px 20px; border-radius: 8px;
+      font-size: .88rem; font-weight: 700; text-decoration: none;
+    }
+
+    /* ── DEMO HEADER ── */
+    .demo-header {
+      background: linear-gradient(135deg, var(--navy), #163560);
+      padding: 48px 28px 0;
+      text-align: center;
+      color: #fff;
+    }
+    .demo-header .tag {
+      display: inline-block; background: rgba(20,168,167,.2); color: var(--teal-lt);
+      font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 100px; margin-bottom: 16px;
+    }
+    .demo-header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; margin-bottom: 12px;
+    }
+    .demo-header p { color: rgba(255,255,255,.65); font-size: 1rem; margin-bottom: 32px; }
+
+    /* ── VIEW SWITCHER ── */
+    .view-switcher {
+      display: inline-flex; gap: 0;
+      background: rgba(255,255,255,.1);
+      border-radius: 100px;
+      padding: 4px;
+      margin-bottom: 0;
+    }
+    .view-btn {
+      padding: 10px 22px; border-radius: 100px;
+      border: none; background: transparent;
+      color: rgba(255,255,255,.6); font-size: .88rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+    }
+    .view-btn.active {
+      background: #fff; color: var(--navy);
+    }
+
+    /* ── BROWSER CHROME ── */
+    .browser-wrap {
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 24px;
+    }
+    .browser {
+      background: #fff;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      box-shadow: 0 -4px 40px rgba(0,0,0,.25);
+      margin-top: 28px;
+      overflow: hidden;
+    }
+    .browser-bar {
+      background: #F0F2F5;
+      padding: 10px 16px;
+      display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .browser-dots { display: flex; gap: 6px; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #FF5F57; }
+    .dot-y { background: #FEBC2E; }
+    .dot-g { background: #28C840; }
+    .browser-url {
+      flex: 1; background: #fff; border: 1px solid var(--border);
+      border-radius: 6px; padding: 5px 12px;
+      font-size: .8rem; color: var(--muted); max-width: 440px;
+    }
+
+    /* ── APP SHELL ── */
+    .app-shell { display: flex; min-height: 620px; }
+
+    /* sidebar */
+    .sidebar {
+      width: 220px; flex-shrink: 0;
+      background: var(--navy);
+      padding: 24px 0;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .sidebar-logo {
+      padding: 0 20px 20px;
+      font-size: 1.1rem; font-weight: 900; color: #fff;
+    }
+    .sidebar-logo span { color: var(--teal-lt); }
+    .sidebar-section {
+      font-size: .65rem; text-transform: uppercase; letter-spacing: .08em;
+      color: rgba(255,255,255,.3); padding: 12px 20px 4px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 20px; color: rgba(255,255,255,.55);
+      font-size: .88rem; font-weight: 500; cursor: pointer;
+      border-radius: 0; transition: all .15s;
+      border-left: 3px solid transparent;
+    }
+    .nav-item:hover { color: #fff; background: rgba(255,255,255,.06); }
+    .nav-item.active {
+      color: #fff; background: rgba(20,168,167,.15);
+      border-left-color: var(--teal-lt);
+    }
+    .nav-item .icon { font-size: 1rem; width: 20px; text-align: center; }
+    .nav-badge {
+      margin-left: auto; background: var(--red);
+      color: #fff; font-size: .68rem; font-weight: 700;
+      padding: 1px 7px; border-radius: 100px;
+    }
+
+    /* main content */
+    .main-content {
+      flex: 1; background: var(--off-white);
+      overflow: hidden;
+    }
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .topbar h2 { font-size: 1.1rem; color: var(--navy); font-weight: 700; }
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+    .date-badge {
+      font-size: .78rem; color: var(--muted);
+      background: var(--off-white); border: 1px solid var(--border);
+      padding: 5px 12px; border-radius: 8px;
+    }
+    .avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--teal); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; font-weight: 700;
+    }
+
+    /* ── DASHBOARD VIEW ── */
+    .dash-body { padding: 24px 28px; }
+
+    /* kpi row */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px; margin-bottom: 24px;
+    }
+    .kpi {
+      background: #fff; border-radius: var(--radius);
+      padding: 20px; border: 1px solid var(--border);
+    }
+    .kpi-label { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+    .kpi-val { font-size: 1.9rem; font-weight: 800; color: var(--navy); line-height: 1; margin-bottom: 6px; }
+    .kpi-delta { font-size: .78rem; font-weight: 600; }
+    .up   { color: var(--green); }
+    .down { color: var(--red); }
+
+    /* mid row */
+    .mid-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .card {
+      background: #fff; border-radius: var(--radius);
+      border: 1px solid var(--border); padding: 20px;
+    }
+    .card-title { font-size: .82rem; font-weight: 700; color: var(--navy); margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+    .card-title span { font-size: .72rem; color: var(--muted); font-weight: 400; }
+
+    /* bar chart */
+    .bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 100px; }
+    .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .bar {
+      width: 100%; border-radius: 4px 4px 0 0;
+      background: var(--teal-bg);
+      transition: height .4s ease;
+      position: relative;
+    }
+    .bar.filled { background: var(--teal); }
+    .bar-label { font-size: .65rem; color: var(--muted); }
+
+    /* donut */
+    .donut-wrap { display: flex; align-items: center; gap: 20px; }
+    .donut-svg { flex-shrink: 0; }
+    .donut-legend { display: flex; flex-direction: column; gap: 8px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: .78rem; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+    /* alert cards */
+    .alert-list { display: flex; flex-direction: column; gap: 10px; }
+    .alert-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px; border-radius: 8px;
+      background: var(--off-white); border: 1px solid var(--border);
+    }
+    .alert-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .alert-dot.high { background: var(--red); }
+    .alert-dot.medium { background: var(--gold); }
+    .alert-dot.low { background: var(--green); }
+    .alert-text { flex: 1; font-size: .8rem; }
+    .alert-text strong { color: var(--navy); display: block; font-size: .82rem; }
+    .alert-text span { color: var(--muted); }
+    .alert-action { font-size: .72rem; color: var(--teal); font-weight: 600; cursor: pointer; white-space: nowrap; }
+
+    /* ── SESSIONS VIEW ── */
+    .sessions-body { padding: 24px 28px; }
+    .filter-row {
+      display: flex; gap: 10px; margin-bottom: 20px; align-items: center; flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 7px 16px; border-radius: 100px;
+      border: 1.5px solid var(--border); background: #fff;
+      font-size: .8rem; font-weight: 600; color: var(--muted); cursor: pointer;
+    }
+    .filter-btn.active { border-color: var(--teal); color: var(--teal); background: var(--teal-bg); }
+    .search-box {
+      margin-left: auto; padding: 7px 14px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: .8rem; color: var(--muted); background: #fff;
+      outline: none;
+    }
+
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+    thead { background: var(--off-white); }
+    th { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); font-weight: 600; }
+    td { padding: 13px 16px; border-bottom: 1px solid var(--border); font-size: .83rem; color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #FAFBFC; }
+
+    .emp-cell { display: flex; align-items: center; gap: 10px; }
+    .emp-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .emp-name { font-weight: 600; color: var(--navy); font-size: .85rem; }
+    .emp-dept { font-size: .72rem; color: var(--muted); }
+
+    .status-pill {
+      display: inline-block; padding: 3px 10px; border-radius: 100px;
+      font-size: .72rem; font-weight: 700;
+    }
+    .pill-green { background: var(--green-bg); color: var(--green); }
+    .pill-gold  { background: var(--gold-bg);  color: #B07010; }
+    .pill-blue  { background: #EFF4FF; color: #3B6FCC; }
+    .pill-grey  { background: #F0F2F5; color: var(--muted); }
+
+    /* ── THERAPISTS VIEW ── */
+    .therapists-body { padding: 24px 28px; }
+    .therapist-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .t-card {
+      background: #fff; border-radius: var(--radius);
+      border: 1px solid var(--border); padding: 20px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .t-header { display: flex; align-items: center; gap: 12px; }
+    .t-avatar {
+      width: 46px; height: 46px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 800; color: #fff; flex-shrink: 0;
+    }
+    .t-name { font-weight: 700; font-size: .9rem; color: var(--navy); }
+    .t-spec { font-size: .75rem; color: var(--muted); }
+    .t-stats { display: flex; gap: 16px; }
+    .t-stat { text-align: center; }
+    .t-stat-val { font-size: 1.1rem; font-weight: 800; color: var(--navy); }
+    .t-stat-lbl { font-size: .65rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+    .t-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .t-tag {
+      background: var(--teal-bg); color: var(--teal);
+      font-size: .7rem; font-weight: 600; padding: 3px 10px; border-radius: 100px;
+    }
+    .t-stars { color: var(--gold); font-size: .85rem; }
+    .t-avail { font-size: .75rem; color: var(--green); font-weight: 600; }
+    .t-avail.busy { color: var(--red); }
+
+    /* ── BILLING VIEW ── */
+    .billing-body { padding: 24px 28px; }
+    .billing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .invoice-table-wrap { background: #fff; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+    .invoice-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .invoice-header strong { font-size: .9rem; color: var(--navy); }
+    .download-btn {
+      font-size: .75rem; color: var(--teal); font-weight: 600;
+      background: var(--teal-bg); border: none; padding: 5px 12px; border-radius: 6px; cursor: pointer;
+    }
+    .cost-breakdown { display: flex; flex-direction: column; gap: 0; }
+    .cost-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 20px; border-bottom: 1px solid var(--border); font-size: .83rem;
+    }
+    .cost-row:last-child { border-bottom: none; font-weight: 700; color: var(--navy); background: var(--off-white); }
+    .cost-row .label { color: var(--muted); }
+    .cost-row .amount { color: var(--navy); font-weight: 600; }
+    .savings-banner {
+      background: var(--green-bg); border: 1.5px solid var(--green);
+      border-radius: var(--radius); padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .savings-icon { font-size: 1.5rem; }
+    .savings-text strong { font-size: .9rem; color: var(--green); display: block; }
+    .savings-text span { font-size: .78rem; color: var(--muted); }
+
+    /* ── EMPLOYEE PORTAL VIEW ── */
+    .portal-body { padding: 24px 28px; background: var(--off-white); }
+    .portal-welcome {
+      background: linear-gradient(135deg, var(--teal), var(--teal-lt));
+      border-radius: var(--radius-lg); padding: 28px;
+      color: #fff; margin-bottom: 20px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .portal-welcome h3 { font-size: 1.2rem; margin-bottom: 4px; }
+    .portal-welcome p { font-size: .88rem; opacity: .8; }
+    .portal-welcome .book-btn {
+      background: #fff; color: var(--teal);
+      padding: 10px 20px; border-radius: 8px;
+      font-size: .85rem; font-weight: 700; white-space: nowrap; cursor: pointer; border: none;
+    }
+    .portal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
+    .portal-card {
+      background: #fff; border-radius: var(--radius);
+      border: 1px solid var(--border); padding: 20px; text-align: center; cursor: pointer;
+      transition: box-shadow .2s;
+    }
+    .portal-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+    .portal-card .p-icon { font-size: 2rem; margin-bottom: 8px; }
+    .portal-card h4 { font-size: .9rem; color: var(--navy); font-weight: 700; margin-bottom: 4px; }
+    .portal-card p { font-size: .78rem; color: var(--muted); }
+    .upcoming-session {
+      background: #fff; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px;
+    }
+    .upcoming-session h4 { font-size: .85rem; font-weight: 700; color: var(--navy); margin-bottom: 14px; }
+    .session-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px; background: var(--off-white); border-radius: 8px;
+    }
+    .session-row .time-block {
+      background: var(--teal); color: #fff;
+      border-radius: 8px; padding: 8px 12px; text-align: center; flex-shrink: 0;
+    }
+    .time-block .day { font-size: .65rem; text-transform: uppercase; opacity: .8; }
+    .time-block .date { font-size: 1.1rem; font-weight: 800; }
+    .session-info strong { font-size: .88rem; color: var(--navy); display: block; }
+    .session-info span { font-size: .75rem; color: var(--muted); }
+    .join-btn {
+      margin-left: auto; background: var(--teal); color: #fff;
+      padding: 7px 16px; border-radius: 8px; font-size: .78rem;
+      font-weight: 700; border: none; cursor: pointer;
+    }
+
+    /* ── TOOLTIP / PULSE ── */
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+    .live-dot {
+      display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--green); margin-right: 6px;
+      animation: pulse 1.8s infinite;
+    }
+
+    /* ── BOTTOM CTA ── */
+    .page-cta {
+      background: var(--navy); text-align: center; padding: 64px 24px;
+    }
+    .page-cta h2 { color: #fff; font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+    .page-cta p { color: rgba(255,255,255,.6); margin-bottom: 28px; font-size: .95rem; }
+    .page-cta a {
+      display: inline-block; background: var(--gold); color: var(--navy);
+      font-size: 1rem; font-weight: 800; padding: 16px 38px;
+      border-radius: var(--radius); text-decoration: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .sidebar { width: 56px; }
+      .sidebar-logo, .sidebar-section, .nav-item span, .nav-badge { display: none; }
+      .nav-item { justify-content: center; padding: 12px; }
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .mid-row { grid-template-columns: 1fr; }
+      .therapist-grid { grid-template-columns: 1fr 1fr; }
+      .portal-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .kpi-row { grid-template-columns: 1fr 1fr; }
+      .therapist-grid { grid-template-columns: 1fr; }
+      .billing-grid { grid-template-columns: 1fr; }
+      .portal-welcome { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="logo">Aha<span>therapy</span></div>
+  <div class="nav-links">
+    <a href="landing-page.html" class="nav-back">← Back to Overview</a>
+    <a href="#book" class="nav-cta">Book a Real Demo</a>
+  </div>
+</nav>
+
+
+<!-- ── DEMO HEADER ── -->
+<div class="demo-header">
+  <div class="tag">Interactive Product Demo</div>
+  <h1>See Ahatherapy in Action</h1>
+  <p>Click through each view below — this is the actual interface your team will use.</p>
+
+  <div class="view-switcher">
+    <button class="view-btn active" onclick="switchView('dashboard', this)">HR Dashboard</button>
+    <button class="view-btn" onclick="switchView('sessions', this)">Sessions</button>
+    <button class="view-btn" onclick="switchView('therapists', this)">Therapists</button>
+    <button class="view-btn" onclick="switchView('billing', this)">Billing</button>
+    <button class="view-btn" onclick="switchView('portal', this)">Employee Portal</button>
+  </div>
+</div>
+
+
+<!-- ── BROWSER CHROME ── -->
+<div class="browser-wrap">
+  <div class="browser">
+    <div class="browser-bar">
+      <div class="browser-dots">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+      </div>
+      <div class="browser-url" id="url-bar">app.ahatherapy.com/hr/dashboard</div>
+    </div>
+
+    <!-- ── APP SHELL ── -->
+    <div class="app-shell">
+
+      <!-- SIDEBAR -->
+      <nav class="sidebar">
+        <div class="sidebar-logo">Aha<span>therapy</span></div>
+
+        <div class="sidebar-section">Overview</div>
+        <div class="nav-item active" onclick="switchView('dashboard',null,this)" id="nav-dashboard">
+          <span class="icon">📊</span><span>Dashboard</span>
+        </div>
+
+        <div class="sidebar-section">Management</div>
+        <div class="nav-item" onclick="switchView('sessions',null,this)" id="nav-sessions">
+          <span class="icon">📅</span><span>Sessions</span>
+          <span class="nav-badge">3</span>
+        </div>
+        <div class="nav-item" onclick="switchView('therapists',null,this)" id="nav-therapists">
+          <span class="icon">👩‍⚕️</span><span>Therapists</span>
+        </div>
+        <div class="nav-item" onclick="switchView('billing',null,this)" id="nav-billing">
+          <span class="icon">💳</span><span>Billing</span>
+        </div>
+
+        <div class="sidebar-section">Employee</div>
+        <div class="nav-item" onclick="switchView('portal',null,this)" id="nav-portal">
+          <span class="icon">🧘</span><span>My Portal</span>
+        </div>
+      </nav>
+
+      <!-- MAIN CONTENT -->
+      <div class="main-content">
+
+        <!-- ════════════════
+             DASHBOARD VIEW
+        ════════════════ -->
+        <div class="view active" id="view-dashboard">
+          <div class="topbar">
+            <h2>Wellness Dashboard</h2>
+            <div class="topbar-right">
+              <span class="date-badge"><span class="live-dot"></span>Live · March 2025</span>
+              <div class="avatar">PM</div>
+            </div>
+          </div>
+          <div class="dash-body">
+
+            <!-- KPIs -->
+            <div class="kpi-row">
+              <div class="kpi">
+                <div class="kpi-label">Utilisation Rate</div>
+                <div class="kpi-val" data-count="31">0%</div>
+                <div class="kpi-delta up">↑ 26pp vs. previous EAP</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Sessions This Month</div>
+                <div class="kpi-val" data-count="148">0</div>
+                <div class="kpi-delta up">↑ 22% month-on-month</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Avg. Therapist Rating</div>
+                <div class="kpi-val" data-count-dec="4.8">0</div>
+                <div class="kpi-delta up">↑ 0.6 pts this quarter</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">30-Day Attrition Risk</div>
+                <div class="kpi-val" data-count="3">0</div>
+                <div class="kpi-delta down">↓ 2 flagged employees resolved</div>
+              </div>
+            </div>
+
+            <!-- Charts row -->
+            <div class="mid-row">
+              <div class="card">
+                <div class="card-title">Monthly Session Volume <span>Last 7 months</span></div>
+                <div class="bar-chart" id="bar-chart"></div>
+              </div>
+              <div class="card">
+                <div class="card-title">Sessions by Department <span>Current month</span></div>
+                <div class="donut-wrap">
+                  <svg class="donut-svg" width="110" height="110" viewBox="0 0 36 36">
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#E2E8EF" stroke-width="3.8"/>
+                    <!-- Engineering 35% -->
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#0E7C7B" stroke-width="3.8"
+                      stroke-dasharray="35 65" stroke-dashoffset="25" stroke-linecap="round"/>
+                    <!-- Sales 28% -->
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#14A8A7" stroke-width="3.8"
+                      stroke-dasharray="28 72" stroke-dashoffset="-10" stroke-linecap="round"/>
+                    <!-- Ops 20% -->
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#E8A020" stroke-width="3.8"
+                      stroke-dasharray="20 80" stroke-dashoffset="-38" stroke-linecap="round"/>
+                    <!-- Others 17% -->
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#D94F4F" stroke-width="3.8"
+                      stroke-dasharray="17 83" stroke-dashoffset="-58" stroke-linecap="round"/>
+                    <text x="18" y="20.5" text-anchor="middle" font-size="5" font-weight="700" fill="#0D1F3C">148</text>
+                  </svg>
+                  <div class="donut-legend">
+                    <div class="legend-item"><div class="legend-dot" style="background:#0E7C7B"></div>Engineering · 35%</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:#14A8A7"></div>Sales · 28%</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:#E8A020"></div>Operations · 20%</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:#D94F4F"></div>Others · 17%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Alerts -->
+            <div class="card">
+              <div class="card-title">Early Warning Alerts <span>Anonymised · Organisation level only</span></div>
+              <div class="alert-list">
+                <div class="alert-item">
+                  <div class="alert-dot high"></div>
+                  <div class="alert-text">
+                    <strong>Sales team · Elevated stress signals detected</strong>
+                    <span>5 employees in this team have requested sessions in the last 7 days — 3× team average</span>
+                  </div>
+                  <div class="alert-action">View Insight →</div>
+                </div>
+                <div class="alert-item">
+                  <div class="alert-dot medium"></div>
+                  <div class="alert-text">
+                    <strong>Engineering · Burnout risk trending upward</strong>
+                    <span>Session frequency increased 40% post-sprint. Consider a team wellness check-in.</span>
+                  </div>
+                  <div class="alert-action">View Insight →</div>
+                </div>
+                <div class="alert-item">
+                  <div class="alert-dot low"></div>
+                  <div class="alert-text">
+                    <strong>Operations · Improvement noted</strong>
+                    <span>Stress signals normalised following last month's manager training initiative.</span>
+                  </div>
+                  <div class="alert-action">View Insight →</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- /dashboard -->
+
+
+        <!-- ════════════════
+             SESSIONS VIEW
+        ════════════════ -->
+        <div class="view" id="view-sessions">
+          <div class="topbar">
+            <h2>Session Log</h2>
+            <div class="topbar-right">
+              <span class="date-badge">March 2025</span>
+              <div class="avatar">PM</div>
+            </div>
+          </div>
+          <div class="sessions-body">
+            <div class="filter-row">
+              <button class="filter-btn active">All</button>
+              <button class="filter-btn">Completed</button>
+              <button class="filter-btn">Scheduled</button>
+              <button class="filter-btn">Pending Review</button>
+              <input class="search-box" placeholder="🔍  Search employee or therapist…" readonly />
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Therapist</th>
+                  <th>Date</th>
+                  <th>Duration</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar" style="background:#6366F1">RK</div>
+                      <div><div class="emp-name">R. Kapoor</div><div class="emp-dept">Engineering</div></div>
+                    </div>
+                  </td>
+                  <td>Dr. Meera Iyer</td>
+                  <td>14 Mar 2025</td>
+                  <td>50 min</td>
+                  <td>Individual</td>
+                  <td><span class="status-pill pill-green">Completed</span></td>
+                  <td>₹1,200</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar" style="background:#F59E0B">AS</div>
+                      <div><div class="emp-name">A. Sharma</div><div class="emp-dept">Sales</div></div>
+                    </div>
+                  </td>
+                  <td>Dr. Vikram Nair</td>
+                  <td>15 Mar 2025</td>
+                  <td>50 min</td>
+                  <td>Individual</td>
+                  <td><span class="status-pill pill-blue">Scheduled</span></td>
+                  <td>₹1,200</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar" style="background:#10B981">PD</div>
+                      <div><div class="emp-name">P. Desai</div><div class="emp-dept">Operations</div></div>
+                    </div>
+                  </td>
+                  <td>Dr. Sunita Rao</td>
+                  <td>13 Mar 2025</td>
+                  <td>50 min</td>
+                  <td>Individual</td>
+                  <td><span class="status-pill pill-green">Completed</span></td>
+                  <td>₹1,200</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar" style="background:#EC4899">NJ</div>
+                      <div><div class="emp-name">N. Joshi</div><div class="emp-dept">HR</div></div>
+                    </div>
+                  </td>
+                  <td>Dr. Meera Iyer</td>
+                  <td>12 Mar 2025</td>
+                  <td>50 min</td>
+                  <td>Individual</td>
+                  <td><span class="status-pill pill-gold">Pending Review</span></td>
+                  <td>₹1,200</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar" style="background:#8B5CF6">SM</div>
+                      <div><div class="emp-name">S. Mehta</div><div class="emp-dept">Engineering</div></div>
+                    </div>
+                  </td>
+                  <td>Dr. Arjun Bose</td>
+                  <td>11 Mar 2025</td>
+                  <td>50 min</td>
+                  <td>Individual</td>
+                  <td><span class="status-pill pill-green">Completed</span></td>
+                  <td>₹1,200</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="emp-cell">
+                      <div class="emp-avatar" style="background:#0E7C7B">VT</div>
+                      <div><div class="emp-name">V. Thomas</div><div class="emp-dept">Finance</div></div>
+                    </div>
+                  </td>
+                  <td>Dr. Vikram Nair</td>
+                  <td>10 Mar 2025</td>
+                  <td>50 min</td>
+                  <td>Individual</td>
+                  <td><span class="status-pill pill-green">Completed</span></td>
+                  <td>₹1,200</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div><!-- /sessions -->
+
+
+        <!-- ════════════════
+             THERAPISTS VIEW
+        ════════════════ -->
+        <div class="view" id="view-therapists">
+          <div class="topbar">
+            <h2>Therapist Panel</h2>
+            <div class="topbar-right">
+              <span class="date-badge">6 Active Therapists</span>
+              <div class="avatar">PM</div>
+            </div>
+          </div>
+          <div class="therapists-body">
+            <div class="therapist-grid">
+
+              <div class="t-card">
+                <div class="t-header">
+                  <div class="t-avatar" style="background:#0E7C7B">MI</div>
+                  <div>
+                    <div class="t-name">Dr. Meera Iyer</div>
+                    <div class="t-spec">Workplace Stress · CBT</div>
+                  </div>
+                </div>
+                <div class="t-stars">★★★★★ <span style="color:var(--muted); font-size:.75rem;">4.9 (62 reviews)</span></div>
+                <div class="t-stats">
+                  <div class="t-stat"><div class="t-stat-val">312</div><div class="t-stat-lbl">Sessions</div></div>
+                  <div class="t-stat"><div class="t-stat-val">94%</div><div class="t-stat-lbl">Return Rate</div></div>
+                  <div class="t-stat"><div class="t-stat-val">8 yr</div><div class="t-stat-lbl">Experience</div></div>
+                </div>
+                <div class="t-tags">
+                  <span class="t-tag">Burnout</span>
+                  <span class="t-tag">Anxiety</span>
+                  <span class="t-tag">Leadership</span>
+                </div>
+                <div class="t-avail">● Available today</div>
+              </div>
+
+              <div class="t-card">
+                <div class="t-header">
+                  <div class="t-avatar" style="background:#6366F1">VN</div>
+                  <div>
+                    <div class="t-name">Dr. Vikram Nair</div>
+                    <div class="t-spec">Performance Anxiety · ACT</div>
+                  </div>
+                </div>
+                <div class="t-stars">★★★★★ <span style="color:var(--muted); font-size:.75rem;">4.8 (48 reviews)</span></div>
+                <div class="t-stats">
+                  <div class="t-stat"><div class="t-stat-val">245</div><div class="t-stat-lbl">Sessions</div></div>
+                  <div class="t-stat"><div class="t-stat-val">91%</div><div class="t-stat-lbl">Return Rate</div></div>
+                  <div class="t-stat"><div class="t-stat-val">6 yr</div><div class="t-stat-lbl">Experience</div></div>
+                </div>
+                <div class="t-tags">
+                  <span class="t-tag">Performance</span>
+                  <span class="t-tag">Conflict</span>
+                  <span class="t-tag">Depression</span>
+                </div>
+                <div class="t-avail">● Available today</div>
+              </div>
+
+              <div class="t-card">
+                <div class="t-header">
+                  <div class="t-avatar" style="background:#F59E0B">SR</div>
+                  <div>
+                    <div class="t-name">Dr. Sunita Rao</div>
+                    <div class="t-spec">Grief · Trauma · DBT</div>
+                  </div>
+                </div>
+                <div class="t-stars">★★★★★ <span style="color:var(--muted); font-size:.75rem;">4.9 (77 reviews)</span></div>
+                <div class="t-stats">
+                  <div class="t-stat"><div class="t-stat-val">401</div><div class="t-stat-lbl">Sessions</div></div>
+                  <div class="t-stat"><div class="t-stat-val">96%</div><div class="t-stat-lbl">Return Rate</div></div>
+                  <div class="t-stat"><div class="t-stat-val">11 yr</div><div class="t-stat-lbl">Experience</div></div>
+                </div>
+                <div class="t-tags">
+                  <span class="t-tag">Trauma</span>
+                  <span class="t-tag">Grief</span>
+                  <span class="t-tag">Women's Health</span>
+                </div>
+                <div class="t-avail busy">● Next slot: 17 Mar</div>
+              </div>
+
+              <div class="t-card">
+                <div class="t-header">
+                  <div class="t-avatar" style="background:#EC4899">AB</div>
+                  <div>
+                    <div class="t-name">Dr. Arjun Bose</div>
+                    <div class="t-spec">Relationships · Mindfulness</div>
+                  </div>
+                </div>
+                <div class="t-stars">★★★★☆ <span style="color:var(--muted); font-size:.75rem;">4.7 (39 reviews)</span></div>
+                <div class="t-stats">
+                  <div class="t-stat"><div class="t-stat-val">188</div><div class="t-stat-lbl">Sessions</div></div>
+                  <div class="t-stat"><div class="t-stat-val">88%</div><div class="t-stat-lbl">Return Rate</div></div>
+                  <div class="t-stat"><div class="t-stat-val">5 yr</div><div class="t-stat-lbl">Experience</div></div>
+                </div>
+                <div class="t-tags">
+                  <span class="t-tag">Relationships</span>
+                  <span class="t-tag">Stress</span>
+                  <span class="t-tag">Mindfulness</span>
+                </div>
+                <div class="t-avail">● Available today</div>
+              </div>
+
+              <div class="t-card">
+                <div class="t-header">
+                  <div class="t-avatar" style="background:#10B981">PK</div>
+                  <div>
+                    <div class="t-name">Dr. Priya Kumar</div>
+                    <div class="t-spec">Child & Adult · CBT</div>
+                  </div>
+                </div>
+                <div class="t-stars">★★★★★ <span style="color:var(--muted); font-size:.75rem;">4.8 (55 reviews)</span></div>
+                <div class="t-stats">
+                  <div class="t-stat"><div class="t-stat-val">276</div><div class="t-stat-lbl">Sessions</div></div>
+                  <div class="t-stat"><div class="t-stat-val">92%</div><div class="t-stat-lbl">Return Rate</div></div>
+                  <div class="t-stat"><div class="t-stat-val">9 yr</div><div class="t-stat-lbl">Experience</div></div>
+                </div>
+                <div class="t-tags">
+                  <span class="t-tag">Anxiety</span>
+                  <span class="t-tag">Parenting</span>
+                  <span class="t-tag">Sleep</span>
+                </div>
+                <div class="t-avail">● Available today</div>
+              </div>
+
+              <div class="t-card">
+                <div class="t-header">
+                  <div class="t-avatar" style="background:#8B5CF6">RS</div>
+                  <div>
+                    <div class="t-name">Dr. Rohan Singh</div>
+                    <div class="t-spec">Executive Stress · Career</div>
+                  </div>
+                </div>
+                <div class="t-stars">★★★★★ <span style="color:var(--muted); font-size:.75rem;">4.9 (43 reviews)</span></div>
+                <div class="t-stats">
+                  <div class="t-stat"><div class="t-stat-val">221</div><div class="t-stat-lbl">Sessions</div></div>
+                  <div class="t-stat"><div class="t-stat-val">93%</div><div class="t-stat-lbl">Return Rate</div></div>
+                  <div class="t-stat"><div class="t-stat-val">7 yr</div><div class="t-stat-lbl">Experience</div></div>
+                </div>
+                <div class="t-tags">
+                  <span class="t-tag">Executive</span>
+                  <span class="t-tag">Career</span>
+                  <span class="t-tag">Burnout</span>
+                </div>
+                <div class="t-avail">● Available today</div>
+              </div>
+
+            </div>
+          </div>
+        </div><!-- /therapists -->
+
+
+        <!-- ════════════════
+             BILLING VIEW
+        ════════════════ -->
+        <div class="view" id="view-billing">
+          <div class="topbar">
+            <h2>Billing & Usage</h2>
+            <div class="topbar-right">
+              <span class="date-badge">March 2025</span>
+              <div class="avatar">PM</div>
+            </div>
+          </div>
+          <div class="billing-body">
+
+            <div class="billing-grid">
+              <div class="kpi" style="background:#fff; border:1px solid var(--border);">
+                <div class="kpi-label">Total Spend · March</div>
+                <div class="kpi-val">₹1.77L</div>
+                <div class="kpi-delta up">148 sessions × ₹1,200</div>
+              </div>
+              <div class="kpi" style="background:#fff; border:1px solid var(--border);">
+                <div class="kpi-label">Saved vs. Per-Seat Model</div>
+                <div class="kpi-val" style="color:var(--green);">₹3.2L</div>
+                <div class="kpi-delta up">Based on 420 employees @ ₹1,180/seat/mo</div>
+              </div>
+            </div>
+
+            <div class="savings-banner" style="margin-bottom:20px;">
+              <div class="savings-icon">🎉</div>
+              <div class="savings-text">
+                <strong>You saved ₹3,23,400 this month by not paying for unused seats.</strong>
+                <span>With a per-seat model at market rate, your March bill would have been ₹4,95,600. You paid ₹1,77,600.</span>
+              </div>
+            </div>
+
+            <div class="invoice-table-wrap">
+              <div class="invoice-header">
+                <strong>Invoice · INV-2025-03 · Ahatherapy</strong>
+                <button class="download-btn">⬇ Download PDF</button>
+              </div>
+              <div class="cost-breakdown">
+                <div class="cost-row">
+                  <span class="label">Individual therapy sessions (148 × ₹1,200)</span>
+                  <span class="amount">₹1,77,600</span>
+                </div>
+                <div class="cost-row">
+                  <span class="label">Platform & HR dashboard access</span>
+                  <span class="amount">₹0</span>
+                </div>
+                <div class="cost-row">
+                  <span class="label">Onboarding & employee communication support</span>
+                  <span class="amount">₹0</span>
+                </div>
+                <div class="cost-row">
+                  <span class="label">Organisation-level analytics & alerts</span>
+                  <span class="amount">₹0</span>
+                </div>
+                <div class="cost-row">
+                  <span class="label">GST (18%)</span>
+                  <span class="amount">₹31,968</span>
+                </div>
+                <div class="cost-row">
+                  <strong>Total Due</strong>
+                  <strong style="color:var(--teal); font-size:1rem;">₹2,09,568</strong>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- /billing -->
+
+
+        <!-- ════════════════
+             EMPLOYEE PORTAL
+        ════════════════ -->
+        <div class="view" id="view-portal">
+          <div class="topbar">
+            <h2>My Wellness Portal</h2>
+            <div class="topbar-right">
+              <span class="date-badge">Welcome back, Rohan</span>
+              <div class="avatar" style="background:var(--teal)">RK</div>
+            </div>
+          </div>
+          <div class="portal-body">
+
+            <div class="portal-welcome">
+              <div>
+                <h3>Good morning, Rohan. How are you feeling today?</h3>
+                <p>Your next session with Dr. Meera Iyer is in 3 days.</p>
+              </div>
+              <button class="book-btn">+ Book a Session</button>
+            </div>
+
+            <div class="portal-grid">
+              <div class="portal-card">
+                <div class="p-icon">📅</div>
+                <h4>Book a Session</h4>
+                <p>Match with a therapist and pick a time that works for you</p>
+              </div>
+              <div class="portal-card">
+                <div class="p-icon">📁</div>
+                <h4>My Session History</h4>
+                <p>View notes and progress from all your past sessions</p>
+              </div>
+              <div class="portal-card">
+                <div class="p-icon">🧘</div>
+                <h4>Self-Care Library</h4>
+                <p>Guided exercises, meditations, and reading curated for you</p>
+              </div>
+              <div class="portal-card">
+                <div class="p-icon">📊</div>
+                <h4>My Wellness Score</h4>
+                <p>Track your mental health progress over time</p>
+              </div>
+              <div class="portal-card">
+                <div class="p-icon">💬</div>
+                <h4>Message My Therapist</h4>
+                <p>Secure in-app messaging between sessions</p>
+              </div>
+              <div class="portal-card">
+                <div class="p-icon">🔒</div>
+                <h4>Privacy Settings</h4>
+                <p>Your employer sees zero session details — ever</p>
+              </div>
+            </div>
+
+            <div class="upcoming-session">
+              <h4>Upcoming Sessions</h4>
+              <div class="session-row">
+                <div class="time-block">
+                  <div class="day">Thu</div>
+                  <div class="date">20</div>
+                </div>
+                <div class="session-info">
+                  <strong>Dr. Meera Iyer — Individual Session</strong>
+                  <span>11:00 AM · 50 minutes · Video call</span>
+                </div>
+                <button class="join-btn">Join</button>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- /portal -->
+
+      </div><!-- /main-content -->
+    </div><!-- /app-shell -->
+  </div><!-- /browser -->
+</div><!-- /browser-wrap -->
+
+
+<!-- ── BOTTOM CTA ── -->
+<section class="page-cta" id="book" style="margin-top: 64px;">
+  <h2>Ready to See This With Your Own Data?</h2>
+  <p>Book a live 30-minute walkthrough. We'll load your headcount, show you a real cost comparison, and answer every question your CFO will ask.</p>
+  <a href="#">Book My Free Demo Call →</a>
+</section>
+
+
+<script>
+  /* ── View Switcher ── */
+  const urls = {
+    dashboard:  'app.ahatherapy.com/hr/dashboard',
+    sessions:   'app.ahatherapy.com/hr/sessions',
+    therapists: 'app.ahatherapy.com/hr/therapists',
+    billing:    'app.ahatherapy.com/hr/billing',
+    portal:     'app.ahatherapy.com/employee/portal',
+  };
+
+  function switchView(name, headerBtn, sidebarBtn) {
+    // views
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    // header buttons
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+    if (headerBtn) headerBtn.classList.add('active');
+    // sidebar
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const sn = document.getElementById('nav-' + name);
+    if (sn) sn.classList.add('active');
+    if (sidebarBtn) sidebarBtn.classList.add('active');
+    // url bar
+    document.getElementById('url-bar').textContent = urls[name] || '';
+    // run counters once for dashboard
+    if (name === 'dashboard') runCounters();
+  }
+
+  /* ── Animated Counters ── */
+  function runCounters() {
+    document.querySelectorAll('[data-count]').forEach(el => {
+      const target = +el.getAttribute('data-count');
+      const suffix = el.textContent.includes('%') ? '%' : '';
+      let current = 0;
+      const step = Math.ceil(target / 40);
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current + (el.getAttribute('data-count').endsWith('%') ? '%' : '');
+        if (current >= target) {
+          el.textContent = target + (el.id === 'kpi-util' ? '%' : '');
+          clearInterval(timer);
+        }
+      }, 28);
+    });
+    document.querySelectorAll('[data-count-dec]').forEach(el => {
+      const target = +el.getAttribute('data-count-dec');
+      let current = 0;
+      const timer = setInterval(() => {
+        current = Math.min(+(current + 0.1).toFixed(1), target);
+        el.textContent = current.toFixed(1);
+        if (current >= target) clearInterval(timer);
+      }, 28);
+    });
+  }
+
+  /* ── Bar Chart ── */
+  const months  = ['Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
+  const vals    = [38, 52, 61, 74, 89, 118, 148];
+  const maxVal  = Math.max(...vals);
+  const chart   = document.getElementById('bar-chart');
+  months.forEach((m, i) => {
+    const col  = document.createElement('div');
+    col.className = 'bar-col';
+    const bar  = document.createElement('div');
+    bar.className = 'bar' + (i === months.length - 1 ? ' filled' : '');
+    bar.style.height = '0px';
+    const lbl  = document.createElement('div');
+    lbl.className = 'bar-label';
+    lbl.textContent = m;
+    col.appendChild(bar); col.appendChild(lbl);
+    chart.appendChild(col);
+    // animate in
+    setTimeout(() => {
+      bar.style.transition = 'height .5s ease';
+      bar.style.height = Math.round((vals[i] / maxVal) * 90) + 'px';
+    }, 100 + i * 60);
+  });
+
+  /* ── Boot ── */
+  runCounters();
+
+  /* ── Filter buttons (demo interaction) ── */
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.filter-row').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
