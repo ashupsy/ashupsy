@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ahatherapy | EAP That Actually Works</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:    #0E7C7B;
+      --teal-lt: #14A8A7;
+      --navy:    #0D1F3C;
+      --gold:    #E8A020;
+      --off-white: #F7F9FB;
+      --text:    #1A1A2E;
+      --muted:   #5A6070;
+      --radius:  12px;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: #fff;
+      line-height: 1.65;
+    }
+
+    /* ── UTILITY ── */
+    .container  { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+    .tag        { display: inline-block; background: rgba(14,124,123,.12); color: var(--teal); font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; margin-bottom: 20px; }
+    .section    { padding: 80px 0; }
+    .section--alt { background: var(--off-white); }
+
+    h1 { font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 800; line-height: 1.15; color: var(--navy); }
+    h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; line-height: 1.2; color: var(--navy); margin-bottom: 20px; }
+    h3 { font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    p  { color: var(--muted); font-size: 1.05rem; }
+
+    .highlight { color: var(--teal); }
+    .gold      { color: var(--gold); }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: #fff; border-bottom: 1px solid #E8ECF0;
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-size: 1.4rem; font-weight: 900; color: var(--teal); letter-spacing: -.02em; }
+    .logo span { color: var(--navy); }
+    .nav-cta {
+      background: var(--teal); color: #fff; border: none;
+      padding: 10px 22px; border-radius: var(--radius);
+      font-size: .9rem; font-weight: 700; cursor: pointer; text-decoration: none;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #163560 100%);
+      padding: 90px 0 80px;
+      text-align: center;
+      color: #fff;
+    }
+    .hero h1 { color: #fff; margin-bottom: 24px; }
+    .hero .sub {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: rgba(255,255,255,.82);
+      max-width: 620px;
+      margin: 0 auto 36px;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 1.1rem;
+      font-weight: 800;
+      padding: 18px 42px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      box-shadow: 0 6px 24px rgba(232,160,32,.4);
+    }
+    .hero-cta:hover { opacity: .92; }
+    .hero-note { font-size: .85rem; color: rgba(255,255,255,.5); margin-top: 14px; }
+
+    /* ── SOCIAL PROOF BAR ── */
+    .proof-bar {
+      background: var(--teal);
+      padding: 18px 0;
+      text-align: center;
+    }
+    .proof-bar p {
+      color: rgba(255,255,255,.92);
+      font-size: .92rem;
+      font-weight: 600;
+    }
+
+    /* ── PROBLEM ── */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .problem-card {
+      background: #fff;
+      border: 1.5px solid #E8ECF0;
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+    .problem-card .icon { font-size: 1.8rem; margin-bottom: 12px; }
+
+    /* ── SOLUTION ── */
+    .solution-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 28px;
+      margin-top: 40px;
+    }
+    .solution-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+    }
+    .solution-card .num {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--teal-lt);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    /* ── BENEFITS ── */
+    .benefits-list {
+      list-style: none;
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .benefits-list li {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      background: #fff;
+      border: 1.5px solid #E8ECF0;
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .check {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--teal);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .benefit-body strong { display: block; font-size: 1.05rem; color: var(--navy); margin-bottom: 4px; }
+
+    /* ── OBJECTIONS ── */
+    .objection-list {
+      list-style: none;
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .objection-list li {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 22px 26px;
+      background: linear-gradient(135deg, #F0FAFA, #E6F4F4);
+      border-left: 4px solid var(--teal);
+      border-radius: var(--radius);
+    }
+    .objection-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .objection-body strong { display: block; font-size: 1rem; color: var(--navy); margin-bottom: 4px; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 28px;
+      margin-top: 40px;
+    }
+    .testimonial-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.08);
+      border-top: 4px solid var(--teal);
+    }
+    .stars { color: var(--gold); font-size: 1.1rem; margin-bottom: 14px; }
+    .testimonial-card blockquote {
+      font-size: 1rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+    .reviewer { display: flex; flex-direction: column; gap: 2px; }
+    .reviewer strong { font-size: .95rem; color: var(--navy); }
+    .reviewer span { font-size: .82rem; color: var(--muted); }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--navy) 0%, #163560 100%);
+      text-align: center;
+      padding: 90px 0;
+    }
+    .cta-section h2 { color: #fff; margin-bottom: 16px; }
+    .cta-section .sub {
+      color: rgba(255,255,255,.75);
+      font-size: 1.1rem;
+      max-width: 560px;
+      margin: 0 auto 36px;
+    }
+    .cta-main {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 1.15rem;
+      font-weight: 800;
+      padding: 20px 50px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      box-shadow: 0 8px 30px rgba(232,160,32,.45);
+    }
+    .cta-main:hover { opacity: .92; }
+    .cta-guarantees {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    .cta-guarantees span {
+      color: rgba(255,255,255,.65);
+      font-size: .88rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── PS ── */
+    .ps-section {
+      background: #FFF8EC;
+      border-top: 3px solid var(--gold);
+      padding: 32px 0;
+      text-align: center;
+    }
+    .ps-section p { color: var(--navy); font-size: 1rem; font-weight: 500; }
+    .ps-section strong { color: var(--teal); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,.45);
+      text-align: center;
+      padding: 24px;
+      font-size: .82rem;
+    }
+
+    @media (max-width: 600px) {
+      .section { padding: 56px 0; }
+      .hero     { padding: 64px 0 56px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAV
+════════════════════════════════════════════ -->
+<nav>
+  <div class="logo">Aha<span>therapy</span></div>
+  <a href="#get-started" class="nav-cta">Get a Free Demo</a>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="tag">India's Pay-Per-Use EAP</div>
+
+    <h1>
+      Your Employees Are Burning Out.<br>
+      <span style="color: var(--gold);">Your EAP Vendor Is Cashing In Anyway.</span>
+    </h1>
+
+    <p class="sub">
+      Ahatherapy is the first EAP built around outcomes, not seat licences —
+      powered by clinically trained therapists, proprietary methodology, and
+      zero wasted spend. You pay only when your people actually use it.
+    </p>
+
+    <a href="#get-started" class="hero-cta">See How It Works — Free Demo</a>
+    <p class="hero-note">No long-term contracts. No per-seat minimums. No surprise invoices.</p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     PROOF BAR
+════════════════════════════════════════════ -->
+<div class="proof-bar">
+  <p>
+    Trusted by HR leaders across tech, manufacturing, and financial services &nbsp;|&nbsp;
+    Avg. utilisation 3× higher than traditional EAPs &nbsp;|&nbsp;
+    Clinically trained therapists rated 4.8 / 5 by employees
+  </p>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PROBLEM
+════════════════════════════════════════════ -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="tag">The Real Problem</div>
+
+    <h2>
+      You Already Know Something Is Wrong.<br>
+      <span class="highlight">The Numbers Are Just Catching Up.</span>
+    </h2>
+
+    <p style="max-width:640px;">
+      You signed up for an EAP because you care about your people. But somewhere
+      between the vendor's sales pitch and today, that care turned into a line item
+      nobody uses, a report nobody reads, and attrition nobody can explain.
+    </p>
+
+    <div class="problem-grid">
+
+      <div class="problem-card">
+        <div class="icon">💸</div>
+        <h3>You're Paying for Seats, Not Results</h3>
+        <p>Most EAPs charge per employee per month — whether your team logs a single session or not. You're funding their revenue, not your people's recovery.</p>
+      </div>
+
+      <div class="problem-card">
+        <div class="icon">📉</div>
+        <h3>Utilisation Rates Are Embarrassingly Low</h3>
+        <p>Industry average EAP utilisation is under 6%. That means 94 out of every 100 employees in distress never reach help — and you never even know it.</p>
+      </div>
+
+      <div class="problem-card">
+        <div class="icon">🤷</div>
+        <h3>Therapist Quality Is a Lottery</h3>
+        <p>You have no visibility into who is actually counselling your employees. Generic training, rotating panels, inconsistent outcomes — and no accountability.</p>
+      </div>
+
+      <div class="problem-card">
+        <div class="icon">🚪</div>
+        <h3>Your Best People Are Quietly Walking Out</h3>
+        <p>Burnout does not announce itself. It shows up in missed deadlines, sick-leave spikes, and a resignation letter on a Monday morning. By then, it is too late.</p>
+      </div>
+
+    </div>
+
+    <p style="margin-top:36px; font-weight:600; color:var(--navy);">
+      If any of this feels uncomfortably familiar — you are not the problem.
+      The infrastructure you were sold is.
+    </p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     SOLUTION
+════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="tag">The Ahatherapy Difference</div>
+
+    <h2>
+      A Complete EAP Built the Way<br>
+      <span class="highlight">It Should Have Been from Day One</span>
+    </h2>
+
+    <p style="max-width:640px;">
+      Ahatherapy is not a helpline. It is not a wellness app with a chatbot.
+      It is a fully managed EAP infrastructure — therapists, technology, training
+      methodology, and reporting — that charges you only when your employees use it.
+      Real help. Real accountability. Zero waste.
+    </p>
+
+    <div class="solution-grid">
+
+      <div class="solution-card">
+        <div class="num">01</div>
+        <h3>Proprietary Therapist Training</h3>
+        <p>Every Ahatherapy counsellor is trained on our own clinical methodology — not generic certification workshops. They speak the language of workplace stress, leadership pressure, and team dynamics.</p>
+      </div>
+
+      <div class="solution-card">
+        <div class="num">02</div>
+        <h3>Pay Only Per Actual Session</h3>
+        <p>No seats. No retainers. No "minimum utilisation" clauses. Your invoice reflects what your employees actually consumed. Nothing more, nothing less.</p>
+      </div>
+
+      <div class="solution-card">
+        <div class="num">03</div>
+        <h3>Full-Stack EAP Infrastructure</h3>
+        <p>Intake, matching, scheduling, sessions, follow-up, outcome tracking, and HR dashboards — all in one platform. You do not stitch together five vendors. We handle it end to end.</p>
+      </div>
+
+      <div class="solution-card">
+        <div class="num">04</div>
+        <h3>Organisation-Level Wellness Intelligence</h3>
+        <p>Anonymised, aggregated data tells you which teams are at risk, what stressors are rising, and where to intervene before the problem costs you a quarter's worth of rehiring fees.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     BENEFITS
+════════════════════════════════════════════ -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="tag">Why It Works</div>
+
+    <h2>
+      Five Things That Change the Moment<br>
+      <span class="highlight">You Switch to Ahatherapy</span>
+    </h2>
+
+    <ul class="benefits-list">
+
+      <li>
+        <div class="check">✓</div>
+        <div class="benefit-body">
+          <strong>Your attrition drops because your people feel genuinely heard — not redirected to a chatbot.</strong>
+          When employees know real, qualified support is one click away and their employer actually values it, they stop updating their LinkedIn profiles. A culture of care is the retention strategy no salary hike can replicate.
+        </div>
+      </li>
+
+      <li>
+        <div class="check">✓</div>
+        <div class="benefit-body">
+          <strong>You stop funding a wellness programme that exists only on paper.</strong>
+          Pay-per-use means every rupee you spend is proof that a real human got real help on a real day. Your EAP budget becomes a measurable investment, not a compliance checkbox.
+        </div>
+      </li>
+
+      <li>
+        <div class="check">✓</div>
+        <div class="benefit-body">
+          <strong>You finally know if your EAP is working — without breaching anyone's privacy.</strong>
+          Ahatherapy's organisation-level dashboards give you trend data, sentiment signals, and early-warning indicators so HR and leadership can act on insight, not instinct.
+        </div>
+      </li>
+
+      <li>
+        <div class="check">✓</div>
+        <div class="benefit-body">
+          <strong>Your managers stop absorbing emotional labour they were never trained to carry.</strong>
+          When employees have a safe, confidential outlet, they stop turning their line manager into their therapist. Your managers get their bandwidth back. Productivity follows.
+        </div>
+      </li>
+
+      <li>
+        <div class="check">✓</div>
+        <div class="benefit-body">
+          <strong>You build a reputation as the employer people fight to join — and refuse to leave.</strong>
+          Top talent in 2024 evaluates mental health support the same way they evaluate salary. An Ahatherapy-backed EAP becomes a genuine differentiator on every offer letter you send.
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     OBJECTIONS
+════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="tag">Your Questions, Answered Honestly</div>
+
+    <h2>
+      Every Reason You Are Hesitating —<br>
+      <span class="highlight">Addressed Directly</span>
+    </h2>
+
+    <ul class="objection-list">
+
+      <li>
+        <div class="objection-icon">💰</div>
+        <div class="objection-body">
+          <strong>"Other EAP providers are cheaper per seat."</strong>
+          Cheaper per seat only matters if your employees use it. If your current EAP sits at 4% utilisation, you are paying 100% of the cost for 4% of the benefit. Ahatherapy's pay-per-use model means you spend less when usage is low and scale effortlessly when demand rises — without renegotiating a contract.
+        </div>
+      </li>
+
+      <li>
+        <div class="objection-icon">🎓</div>
+        <div class="objection-body">
+          <strong>"How do I know your therapists are actually good?"</strong>
+          Fair question — and the most important one you can ask. Every Ahatherapy therapist passes a rigorous selection process, is trained on our proprietary clinical methodology, and carries a verified track record of workplace-context sessions. You can review therapist profiles, session outcome scores, and employee-rated satisfaction data at any time. We stake our model on quality because if your employees do not trust the therapist, they will not come back — and we do not get paid.
+        </div>
+      </li>
+
+      <li>
+        <div class="objection-icon">🔄</div>
+        <div class="objection-body">
+          <strong>"We already use Amaha / One to One Help. Switching feels complicated."</strong>
+          Switching takes one onboarding call. We handle the migration, set up your employee communication templates, and have your team live within five working days. We have done this dozens of times. The organisations that hesitated longest are now the ones who wish they had moved sooner.
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════════════ -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="tag">What HR Leaders Are Saying</div>
+
+    <h2>
+      Real Organisations.<br>
+      <span class="highlight">Real Outcomes.</span>
+    </h2>
+
+    <!-- PLACEHOLDER NOTE: Replace these testimonials with real ones before launch -->
+
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>
+          "We were spending ₹8 lakhs a year on an EAP that our employees barely knew existed. Six months after switching to Ahatherapy, utilisation went from under 5% to over 28% — and our Q3 voluntary attrition dropped by nearly a third. I genuinely did not expect results this fast."
+        </blockquote>
+        <div class="reviewer">
+          <strong>Priya Menon</strong>
+          <span>VP – People & Culture, Series B SaaS company, Bengaluru</span>
+          <span style="font-size:.78rem; color:#aaa; margin-top:4px;">[ Replace with real testimonial ]</span>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>
+          "The pay-per-use model was the thing that finally got our CFO to approve the budget without a debate. But what kept us was the quality. Our employees actually talk about their therapists by name. They come back. That has never happened with any EAP we have run before."
+        </blockquote>
+        <div class="reviewer">
+          <strong>Rahul Singhania</strong>
+          <span>Head of HR, 1,200-person manufacturing firm, Pune</span>
+          <span style="font-size:.78rem; color:#aaa; margin-top:4px;">[ Replace with real testimonial ]</span>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>
+          "We had tried two other EAP vendors. The therapy quality was inconsistent and the dashboards told us nothing useful. Ahatherapy's org-level insights helped us spot a burnout cluster in one of our delivery teams before it became a resignation crisis. That early call saved us an estimated ₹18 lakhs in rehiring costs."
+        </blockquote>
+        <div class="reviewer">
+          <strong>Ananya Krishnamurthy</strong>
+          <span>Chief People Officer, 600-employee financial services firm, Mumbai</span>
+          <span style="font-size:.78rem; color:#aaa; margin-top:4px;">[ Replace with real testimonial ]</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     CLOSING CTA
+════════════════════════════════════════════ -->
+<section class="cta-section" id="get-started">
+  <div class="container">
+    <div class="tag" style="background:rgba(255,255,255,.12); color:rgba(255,255,255,.85);">
+      No Risk. No Lock-In.
+    </div>
+
+    <h2>
+      Your People Cannot Wait.<br>
+      And Neither Can Your Culture.
+    </h2>
+
+    <p class="sub">
+      Book a free 30-minute strategy call. We will walk you through your current EAP
+      spend, show you exactly what Ahatherapy would cost you in a real scenario, and
+      let you decide with full information — zero sales pressure, zero obligation.
+    </p>
+
+    <a href="#" class="cta-main">
+      Book My Free Demo Call Now →
+    </a>
+
+    <div class="cta-guarantees">
+      <span>✔ No contract required to start</span>
+      <span>✔ Live within 5 working days</span>
+      <span>✔ Pay only when sessions happen</span>
+      <span>✔ Cancel anytime</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     PS LINE
+════════════════════════════════════════════ -->
+<div class="ps-section">
+  <div class="container">
+    <p>
+      <strong>P.S.</strong> — Every week you stay on your current EAP,
+      employees who need help are not getting it — and you are paying for the privilege.
+      The demo is free. The decision to keep the status quo is not.
+      <strong><a href="#get-started" style="color:var(--teal); text-decoration:underline;">Book your call today — spots this week are limited.</a></strong>
+    </p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer>
+  <p>© 2024 Ahatherapy. All rights reserved. &nbsp;|&nbsp;
+     <a href="#" style="color:inherit;">Privacy Policy</a> &nbsp;|&nbsp;
+     <a href="#" style="color:inherit;">Terms of Use</a>
+  </p>
+</footer>
+
+</body>
+</html>
