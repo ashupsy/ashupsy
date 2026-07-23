@@ -1,0 +1,4 @@
+# HSEmotion / EmotiEffLib backend — fast, real-time.
+# 8 emotions + continuous valence & arousal.
+emotiefflib>=1.0
+onnxruntime>=1.16        # ONNX engine; or use emotiefflib[torch] for PyTorch

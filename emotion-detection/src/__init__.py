@@ -1,5 +1,9 @@
-"""Face detection + emotion recognition package."""
+"""Face detection + emotion recognition package.
 
-from src.emotion_detector import Detection, EmotionDetector, EMOTIONS
+Backends live in :mod:`src.backends`; construct one with
+``src.backends.get_backend("hsemotion" | "pyfeat" | "fer")``.
+"""
 
-__all__ = ["Detection", "EmotionDetector", "EMOTIONS"]
+from src.backends import BACKENDS, FaceResult, get_backend
+
+__all__ = ["get_backend", "BACKENDS", "FaceResult"]

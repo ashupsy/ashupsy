@@ -1,7 +1,5 @@
-# Core computer-vision + numerics
-opencv-python>=4.8.0
-numpy>=1.24.0
-
-# Emotion-classification model (Keras / TensorFlow).
-# TensorFlow bundles Keras. If you only want face detection you can skip this.
-tensorflow>=2.13.0
+# Core dependencies (always needed) — face detection, drawing, arrays.
+# Use opencv-python on a machine with a display (webcam window);
+# opencv-python-headless is fine for servers / batch image & video jobs.
+opencv-python>=4.8,<5
+numpy>=1.24

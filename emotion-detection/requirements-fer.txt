@@ -1,0 +1,3 @@
+# Legacy FER-2013 mini-Xception backend (--backend fer).
+# Also run `python download_model.py` to fetch the model weights.
+tensorflow>=2.13
