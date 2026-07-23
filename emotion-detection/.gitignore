@@ -1,0 +1,14 @@
+# Downloaded / trained model weights (fetched via download_model.py)
+models/*.hdf5
+models/*.h5
+
+# Runtime artifacts
+screenshot_*.png
+*_annotated.jpg
+*_annotated.jpeg
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
